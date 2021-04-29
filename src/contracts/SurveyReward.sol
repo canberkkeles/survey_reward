@@ -8,7 +8,7 @@ contract SurveyReward {
     struct Survey {
         string title;
         address payable conductor;
-        int256 questionCount;
+        uint256 questionCount;
         bool open;
         mapping(uint256 => Question) questions;
     }
@@ -16,7 +16,7 @@ contract SurveyReward {
     event SurveyCreation(
         string title,
         address payable conductor,
-        int256 questionCount,
+        uint256 questionCount,
         bool open
     );
 
@@ -26,36 +26,48 @@ contract SurveyReward {
         mapping(uint256 => Answer) answers;
     }
 
-    event QuestionCreation(string text, uint256 answerCount);
+    event QuestionAdditionToSurvey(
+        string text,
+        uint256 answerCount,
+        uint256 surveyid,
+        uint256 questionCount
+    );
 
     struct Answer {
         address payable participant;
         string text;
     }
 
-    event AnswerCreate(address payable participant, string text);
-
     constructor() public {
         name = "Survey Rewarding System";
     }
 
-    function createSurvey(string memory _title, int256 _questioncount) public {
-        require(_questioncount > 0, "Survey has to have at least 1 question!");
+    function createSurvey(string memory _title) public {
+        require(bytes(_title).length != 0, "Survey title can not be empty");
 
-        surveys[surveyCount] = Survey(_title, msg.sender, _questioncount, true);
+        surveys[surveyCount] = Survey(_title, msg.sender, 0, true);
         surveyCount++;
-        emit SurveyCreation(_title, msg.sender, _questioncount, true);
+        emit SurveyCreation(_title, msg.sender, 0, true);
     }
 
-    function createQuestion(string memory _text) public {
+    function createQuestionToSurvey(string memory _text, uint256 _surveyid)
+        public
+    {
         require(bytes(_text).length != 0, "Question text can not be empty");
-        Question memory newQuestion = Question(_text, 0);
-        emit QuestionCreation(_text, 0);
-    }
-
-    function createAnswer(string memory _text) public {
-        require(bytes(_text).length != 0, "Answer text can not be empty");
-        Answer memory newAnswer = Answer(msg.sender, _text);
-        emit AnswerCreate(msg.sender, _text);
+        require(_surveyid < surveyCount, "Survey should exist");
+        Survey storage _survey = surveys[_surveyid];
+        require(
+            _survey.conductor == msg.sender,
+            "Only survey owner can add questions"
+        );
+        _survey.questions[_survey.questionCount] = Question(_text, 0);
+        _survey.questionCount++;
+        surveys[_surveyid] = _survey;
+        emit QuestionAdditionToSurvey(
+            _text,
+            _survey.questions[_survey.questionCount - 1].answerCount,
+            _surveyid,
+            _survey.questionCount
+        );
     }
 }
