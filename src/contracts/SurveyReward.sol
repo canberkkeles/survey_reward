@@ -21,18 +21,18 @@ contract SurveyReward {
     );
 
     struct Question {
-        string text;
+        bytes32 text;
         uint256 answerCount;
         mapping(uint256 => Answer) answers;
     }
 
     struct Answer {
         address payable participant;
-        string text;
+        bytes32 text;
     }    
 
     event QuestionAdditionToSurvey(
-        string text,
+        bytes32 text,
         uint256 answerCount,
         uint256 surveyid,
         uint256 questionCount
@@ -42,7 +42,7 @@ contract SurveyReward {
         uint256 surveyid,
         uint256 questionid,
         address participant,
-        string answer
+        bytes32 answer
     );
 
     constructor() public {
@@ -80,10 +80,8 @@ contract SurveyReward {
         emit SurveyCreation(_title, msg.sender, 0, true);
     }
 
-    function createQuestionToSurvey(string memory _text, uint256 _surveyid) surveyExists(_surveyid) conductorOnly(_surveyid)
-        public
+    function createQuestion(bytes32 _text, uint256 _surveyid) private
     {
-        require(bytes(_text).length != 0, "Question text can not be empty");
         Survey storage _survey = surveys[_surveyid];
         _survey.questions[_survey.questionCount] = Question(_text, 0);
         _survey.questionCount++;
@@ -96,27 +94,33 @@ contract SurveyReward {
         );
     }
 
+    function appendQuestions(bytes32[] memory questions, uint256 _surveyid) surveyExists(_surveyid) conductorOnly(_surveyid) public{
+        for(uint i = 0; i < questions.length ; i++){
+            createQuestion(questions[i], _surveyid);
+        }
+    }
+
     function getQuestionFromSurvey(uint256 _surveyid, uint256 _questionid) public view 
     surveyExists(_surveyid) 
     questionExists(_surveyid,_questionid) 
-    returns(string memory){
+    returns(bytes32){
         Survey storage _survey = surveys[_surveyid];
         return _survey.questions[_questionid].text;
     }
 
-    // function getAnswers(uint256 _surveyid, uint256 _questionid) public view surveyAndQuestionExists(_surveyid,_questionid) returns(bytes32) {
-    //     Survey storage _survey = surveys[_surveyid];
-    //     require(_survey.conductor == msg.sender,"Only conductor can use this functionality!");
-    //     Question storage _question = _survey.questions[_questionid];
-    //     uint256 _answerCount = _question.answerCount;
-    //     bytes32[] memory _answers = new bytes32[];
-    //     for(uint i = 0 ; i > _answerCount ; i++){
-    //         _answers.push(_question.answers[i].text);
-    //     }
-    //     return _answers;
-    // }
+    function getAnswers(uint256 _surveyid, uint256 _questionid) public view surveyExists(_surveyid) 
+    questionExists(_surveyid, _questionid) 
+    conductorOnly(_surveyid) returns(bytes32[] memory) {
+        Question storage _question = surveys[_surveyid].questions[_questionid];
+        uint256 _answerCount = _question.answerCount;
+        bytes32[] memory _answers = new bytes32[](_answerCount);
+        for(uint i = 0 ; i < _answerCount ; i++){
+            _answers[i] = _question.answers[i].text;
+        }
+        return _answers;
+    }
 
-    function answerQuestion(uint256 _surveyid, uint256 _questionid, string memory _answer) public 
+    function answerQuestion(uint256 _surveyid, uint256 _questionid, bytes32 _answer) public 
     surveyExists(_surveyid) 
     questionExists(_surveyid,_questionid) 
     participantOnly(_surveyid){

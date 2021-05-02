@@ -77,16 +77,15 @@ contract("SurveyReward", ([conductor, participant]) => {
     });
 
     it("appends questions to survey", async () => {
-      // POSITIVE CASES
-      result = await surveyReward.createQuestionToSurvey(
-        "Question on blockchain",
+      // POSITIVE CASE
+      result = await surveyReward.appendQuestions(
+        [web3.utils.asciiToHex("Question on blockchain")],
         0
       );
       const event = result.logs[0].args;
       assert.equal(
-        event.text,
-        "Question on blockchain",
-        "Question text is correct"
+        web3.utils.hexToAscii(event.text).replace(/\0/g, ""),
+        "Question on blockchain"
       );
       assert.equal(
         event.answerCount.toNumber(),
@@ -99,31 +98,25 @@ contract("SurveyReward", ([conductor, participant]) => {
         1,
         "Question count is correct"
       );
-
       // NEGATIVE CASES
-      await surveyReward.createQuestionToSurvey("", 0).should.be.rejected;
-      await surveyReward.createQuestionToSurvey("Valid question", -1).should.be
-        .rejected;
-      await surveyReward.createQuestionToSurvey("Valid question", 0, {
-        from: participant,
-      }).should.be.rejected;
+      await surveyReward.appendQuestions(
+        [web3.utils.asciiToHex("Valid question")],
+        -1
+      ).should.be.rejected;
+      await surveyReward.appendQuestions(
+        [web3.utils.asciiToHex("Valid question")],
+        0,
+        {
+          from: participant,
+        }
+      ).should.be.rejected;
     });
 
-    it("gets questions in survey", async () => {
-      result = await surveyReward.getQuestionFromSurvey(0, 0);
-      assert.equal(result.toString(), "Question on blockchain");
-
-      // NEGATIVE CASE
-      await surveyReward.getQuestionFromSurvey(1, 0).should.be.rejected;
-      await surveyReward.getQuestionFromSurvey(0, 1).should.be.rejected;
-      await surveyReward.getQuestionFromSurvey(1, 1).should.be.rejected;
-    });
-
-    it("answers questions in survey", async () => {
+    it("answers questions", async () => {
       result = await surveyReward.answerQuestion(
         0,
         0,
-        "An answer on blockchain",
+        web3.utils.asciiToHex("An answer on blockchain"),
         { from: participant }
       );
       const event = result.logs[0].args;
@@ -131,7 +124,7 @@ contract("SurveyReward", ([conductor, participant]) => {
       assert.equal(event.questionid.toNumber(), 0, "Question id is correct");
       assert.equal(event.participant, participant, "Participant is correct");
       assert.equal(
-        event.answer,
+        web3.utils.hexToAscii(event.answer).replace(/\0/g, ""),
         "An answer on blockchain",
         "Answer is correct"
       );
@@ -151,6 +144,22 @@ contract("SurveyReward", ([conductor, participant]) => {
       await surveyReward.answerQuestion(0, 0, "An answer on blockchain", {
         from: conductor,
       }).should.be.rejected;
+    });
+    it("lists answers for conductor", async () => {
+      result = await surveyReward.getAnswers(0, 0);
+      assert.equal(result.length, 1, "Answer count is correct");
+      assert.equal(
+        web3.utils.hexToAscii(result[0]).replace(/\0/g, ""),
+        "An answer on blockchain",
+        "Answer is correct"
+      );
+
+      // NEGATIVE CASES
+      await surveyReward.getAnswers(1, 0).should.be.rejected;
+      await surveyReward.getAnswers(0, 1).should.be.rejected;
+      await surveyReward.getAnswers(1, 1).should.be.rejected;
+      await surveyReward.getAnswers(0, 0, { from: participant }).should.be
+        .rejected;
     });
   });
 });
