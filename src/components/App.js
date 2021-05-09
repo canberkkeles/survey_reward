@@ -1,14 +1,8 @@
-import React, { Component } from "react";
+import React from "react";
 import "./App.css";
+import Main from "./Main";
 
-class App extends Component {
-  render() {
-    return (
-      <div className="container">
-        <h1>Welcome to Survey Reward System</h1>
-      </div>
-    );
-  }
+function App() {
+  return <Main />;
 }
-
 export default App;
