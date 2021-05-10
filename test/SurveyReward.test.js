@@ -35,8 +35,9 @@ contract("SurveyReward", ([conductor, participant, participant2]) => {
     let result;
     let surveyCount;
     before(async () => {
-      result = await surveyReward.createSurvey("Research on blockchain", 2, {
+      result = await surveyReward.createSurvey("Research on blockchain", 400, {
         from: conductor,
+        value: 400,
       });
       surveyCount = await surveyReward.surveyCount();
     });
@@ -56,11 +57,16 @@ contract("SurveyReward", ([conductor, participant, participant2]) => {
       );
       assert.equal(event.conductor, conductor, "Survey conductor is correct");
       assert.equal(event.open, true, "Survey status is correct");
-      assert.equal(event.reward.toNumber(), 2, "Survey reward is correct");
+      assert.equal(event.reward.toNumber(), 400, "Survey reward is correct");
 
       // NEGATIVE CASE
-      await surveyReward.createSurvey("", {
+      await surveyReward.createSurvey("", 400, {
         from: conductor,
+        value: 400,
+      }).should.be.rejected;
+      await surveyReward.createSurvey("Invalid reward", 400, {
+        from: conductor,
+        value: 200,
       }).should.be.rejected;
     });
 
@@ -75,7 +81,8 @@ contract("SurveyReward", ([conductor, participant, participant2]) => {
       );
       assert.equal(survey.conductor, conductor, "Conductor is correct");
       assert.equal(survey.open, true, "Status is correct");
-      assert.equal(survey.reward.toNumber(), 2, "Reward is correct");
+      assert.equal(survey.reward.toNumber(), 400, "Reward is correct");
+      assert.equal(survey.balance.toNumber(), 400, "Balance is correct");
     });
 
     it("appends questions to survey", async () => {
@@ -111,6 +118,10 @@ contract("SurveyReward", ([conductor, participant, participant2]) => {
         {
           from: participant,
         }
+      ).should.be.rejected;
+      await surveyReward.appendQuestions(
+        [web3.utils.asciiToHex("New question on blockchain")],
+        0
       ).should.be.rejected;
     });
 
@@ -196,7 +207,7 @@ contract("SurveyReward", ([conductor, participant, participant2]) => {
       let afterBalance = await web3.eth.getBalance(surveyReward.address);
       afterBalance = new web3.utils.BN(afterBalance);
 
-      let price = new web3.utils.BN(2);
+      let price = new web3.utils.BN(400);
       const expectedBalance = afterBalance.add(price);
 
       assert.equal(
@@ -221,6 +232,13 @@ contract("SurveyReward", ([conductor, participant, participant2]) => {
       await surveyReward.answerQuestion(0, 0, "An answer on blockchain", {
         from: conductor,
       }).should.be.rejected;
+
+      await surveyReward.answerQuestion(
+        0,
+        0,
+        web3.utils.asciiToHex("I am not using a bot"),
+        { from: participant2, value: 200 }
+      ).should.be.rejected;
     });
 
     it("lists answers for conductor", async () => {

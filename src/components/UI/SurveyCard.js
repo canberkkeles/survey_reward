@@ -44,6 +44,7 @@ const theme = createMuiTheme({
 export default function SurveyCard() {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
+  const [rewardPool, setRewardPool] = React.useState(400);
   const prize = "500 Wei";
   const surveyTitle = "Reaction Time Survey";
   const description =
@@ -110,6 +111,9 @@ export default function SurveyCard() {
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
           <Typography paragraph>Before you start:</Typography>
+          <Typography
+            paragraph
+          >{`Remaning prize pool: ${rewardPool}`}</Typography>
           <Typography paragraph>{details}</Typography>
         </CardContent>
       </Collapse>

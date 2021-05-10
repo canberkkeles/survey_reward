@@ -1,6 +1,6 @@
 {
   "name": "survey-reward",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A Reward System For Survey Participants!",
   "author": "Canberk Keles, Mazhar Mert Ozbil, Omer Kose, Burak Izer, Cagdas Capuk",
   "dependencies": {

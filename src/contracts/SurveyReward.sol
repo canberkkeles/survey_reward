@@ -11,6 +11,7 @@ contract SurveyReward {
         uint256 questionCount;
         bool open;
         uint256 reward;
+        uint256 balance;
         mapping(uint256 => Question) questions;
         mapping(address => uint256) lastLeft;
     }
@@ -20,7 +21,8 @@ contract SurveyReward {
         address payable conductor,
         uint256 questionCount,
         bool open,
-        uint256 reward
+        uint256 reward,
+        uint256 balance
     );
 
     struct Question {
@@ -91,15 +93,16 @@ contract SurveyReward {
     // CREATES A SURVEY WITH GIVEN TITLE AND REWARD PARAMS
     // QUESTION 0 IS A CONSTANT CAPTCHA WHICH MUST BE TYPED BY THE PARTICIPANT
     // TO PREVENT BOT ATTACKS
-    function createSurvey(string memory _title,uint256 _reward) public {
+    function createSurvey(string memory _title,uint256 _reward) public payable {
         require(bytes(_title).length != 0, "Survey title can not be empty");
-        surveys[surveyCount] = Survey(_title, msg.sender, 0, true,_reward);
+        require(msg.value >= _reward,"Survey must be completable by at least one participant");
+        surveys[surveyCount] = Survey(_title, msg.sender, 0, true,_reward,msg.value);
         Survey storage _survey = surveys[surveyCount];
         _survey.questions[0] = Question("I am not using a bot",0);
         _survey.questionCount++;
         surveys[surveyCount] = _survey;
         surveyCount++;
-        emit SurveyCreation(_title, msg.sender, 1, true,_reward);
+        emit SurveyCreation(_survey.title, msg.sender, 1, true,_survey.reward,_survey.balance);
     }
 
     // CREATES A QUESTION TO SURVEY WITH GIVEN ID
@@ -120,6 +123,8 @@ contract SurveyReward {
     // ADDS QUESTIONS FROM QUESTIONS ARRAY INTO GIVEN SURVEY
     // REQUIRED: SURVEY MUST EXIST AND SENDER MUST BE CONDUCTOR
     function appendQuestions(bytes32[] memory questions, uint256 _surveyid) surveyAvailable(_surveyid) conductorOnly(_surveyid) public{
+        Survey storage _survey = surveys[_surveyid];
+        require(_survey.questionCount == 1,"Can not add questions to survey after it is created");
         for(uint i = 0; i < questions.length ; i++){
             createQuestion(questions[i], _surveyid);
         }
@@ -157,6 +162,7 @@ contract SurveyReward {
     checkpointSatisfies(_surveyid,_questionid){
 
         Survey storage _survey = surveys[_surveyid];
+        require(_survey.balance >= _survey.reward,"This survey has no more rewards left");
         Question storage _question = _survey.questions[_questionid];
 
         if(_questionid == 0){ // QUESTION IS CAPTCHA
@@ -166,6 +172,8 @@ contract SurveyReward {
 
         else if(_questionid == _survey.questionCount-1){ // QUESTION IS LAST
             msg.sender.transfer(_survey.reward);
+            _survey.balance = _survey.balance - _survey.reward;
+            if(_survey.balance <= 0 ) _survey.open = false;
         }
 
         // SAVE THE ANSWER

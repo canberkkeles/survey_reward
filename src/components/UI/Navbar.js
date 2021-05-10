@@ -27,7 +27,6 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: "bold",
     fontSize: 14,
     color: "white",
-    fontFamily: ["Seravek", "sans-serif"].join(","),
   },
   logo: {
     flexGrow: 1,
