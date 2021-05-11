@@ -1,0 +1,27 @@
+.surveys-filter {
+  text-align: center;
+  margin: 2% 2%;
+  color: rgba(0, 0, 0, 0.54);
+  padding: 0 1rem;
+  max-width: 8%;
+  width: 8%;
+  height: auto;
+  float: left;
+  border-radius: 4px;
+  box-shadow: 0px 2px 1px -1px rgb(0 0 0 / 20%),
+    0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%);
+  font-size: 0.875rem;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-weight: bold;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
+  position: fixed;
+}
+.surveys-filter__control {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin: 1rem 0;
+}
