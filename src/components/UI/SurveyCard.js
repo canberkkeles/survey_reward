@@ -41,16 +41,17 @@ const theme = createMuiTheme({
     primary: lightBlue,
   },
 });
-export default function SurveyCard() {
+export default function SurveyCard(props) {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
-  const [rewardPool, setRewardPool] = React.useState(400);
-  const prize = "500 Wei";
-  const surveyTitle = "Reaction Time Survey";
-  const description =
-    "Hello and welcome to the survey. This Survey is about neuroscience and reaction time of a person.";
-  const questionCount = 12;
-  const [currentQuestion, setCurrentQuestion] = React.useState(5);
+  const [rewardPool, setRewardPool] = React.useState(Number(props.rewardPool));
+  const prize = Number(props.prize);
+  const surveyTitle = props.title;
+  const description = props.description;
+  const questionCount = Number(props.questionCount);
+  const [currentQuestion, setCurrentQuestion] = React.useState(
+    Number(props.currentQuestion)
+  );
   const details = `This survey has ${questionCount} questions. It takes approximately ${questionCount} minutes. Thank you for your participation.`;
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -73,7 +74,7 @@ export default function SurveyCard() {
           </IconButton>
         }
         title={surveyTitle}
-        subheader={`Reward: ${prize}`}
+        subheader={`Reward: ${prize} Wei`}
       />
 
       <CardContent>
