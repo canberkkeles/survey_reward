@@ -1,11 +1,14 @@
 import React from "react";
 import Navbar from "../UI/Navbar";
+import { useParams } from "react-router-dom";
 const SurveyQuestion = (props) => {
-  const surveyId = props.match.params.id;
+  const { id } = useParams();
+  const accountAddress = props.accountAddress;
+  const appName = props.appName;
   return (
     <div>
-      <Navbar />
-      <p>Questions for survey with id {surveyId} </p>
+      <Navbar accountAddress={accountAddress} appName={appName} />
+      <p>Questions for survey with id {id} </p>
     </div>
   );
 };

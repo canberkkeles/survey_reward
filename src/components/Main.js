@@ -59,11 +59,13 @@ const DUMMY_SURVEYS = [
     open: true,
   },
 ];
-const Main = () => {
+const Main = (props) => {
   const [surveys, setSurveys] = useState(DUMMY_SURVEYS);
+  const accountAddress = props.accountAddress;
+  const appName = props.appName;
   return (
     <div>
-      <Navbar />
+      <Navbar accountAddress={accountAddress} appName={appName} />
       <Surveys surveys={surveys} />
     </div>
   );

@@ -43,10 +43,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Navbar() {
+export default function Navbar(props) {
   const classes = useStyles();
-  const account = "0xaD3Cd15b8Ad69d7913eB80aC52a6C9016773b36E";
-  const appName = "Survey Dapp";
+  const account = props.accountAddress;
+  const appName = props.appName;
 
   return (
     <div className={classes.root}>
