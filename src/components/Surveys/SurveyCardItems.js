@@ -12,6 +12,7 @@ const useStyles = makeStyles((theme) => ({
     marginRight: "10%",
     marginTop: "2%",
     gridRowGap: "5%",
+    alignItems: "center",
   },
 }));
 
