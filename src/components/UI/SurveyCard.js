@@ -12,7 +12,7 @@ import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import MonetizationOnIcon from "@material-ui/icons/MonetizationOn";
 import Button from "@material-ui/core/Button";
-import { lightBlue, red } from "@material-ui/core/colors";
+import { lightBlue } from "@material-ui/core/colors";
 import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import CircularStatic from "./CircularStatic";
 
