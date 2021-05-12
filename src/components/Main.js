@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Navbar from "./UI/Navbar";
-import SurveyCardItems from "./SurveyCardItems";
-import FilterSurveys from "./FilterSurveys";
+import Surveys from "./Surveys/Surveys";
 
 const DUMMY_SURVEYS = [
   {
@@ -60,8 +59,7 @@ const Main = () => {
   return (
     <div>
       <Navbar />
-      <FilterSurveys />
-      <SurveyCardItems surveys={surveys} />
+      <Surveys surveys={surveys} />
     </div>
   );
 };
