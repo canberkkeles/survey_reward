@@ -1,8 +1,14 @@
 import React from "react";
 import "./App.css";
 import Main from "./Main";
-
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import SurveyQuestion from "./Surveys/SurveyQuestion";
 function App() {
-  return <Main />;
+  return (
+    <Router>
+      <Route path="/" component={Main} />
+      <Route path="/fill/survey/:id" component={SurveyQuestion} />
+    </Router>
+  );
 }
 export default App;

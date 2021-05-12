@@ -12,7 +12,7 @@ import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import MonetizationOnIcon from "@material-ui/icons/MonetizationOn";
 import Button from "@material-ui/core/Button";
-import { lightBlue } from "@material-ui/core/colors";
+import { lightBlue, red } from "@material-ui/core/colors";
 import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import CircularStatic from "./CircularStatic";
 
@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
     transform: "rotate(180deg)",
   },
 }));
-const theme = createMuiTheme({
+const open = createMuiTheme({
   palette: {
     primary: lightBlue,
   },
@@ -49,6 +49,7 @@ export default function SurveyCard(props) {
   const surveyTitle = props.title;
   const description = props.description;
   const questionCount = Number(props.questionCount);
+  const isOpen = props.isOpen;
   const [currentQuestion, setCurrentQuestion] = React.useState(
     Number(props.currentQuestion)
   );
@@ -85,20 +86,32 @@ export default function SurveyCard(props) {
       </CardContent>
 
       <CardActions disableSpacing>
-        <ThemeProvider theme={theme}>
+        {isOpen ? (
+          <ThemeProvider theme={open}>
+            <Button
+              variant="contained"
+              color="primary"
+              style={{ color: "white" }}
+            >
+              Begin Survey
+            </Button>
+            &ensp;&ensp;&ensp;&ensp;
+            <CircularStatic
+              questionCount={questionCount}
+              answered={currentQuestion}
+            />
+          </ThemeProvider>
+        ) : (
           <Button
             variant="contained"
             color="primary"
             style={{ color: "white" }}
+            disabled
           >
-            Begin Survey
+            Survey Closed
           </Button>
-          &ensp;&ensp;&ensp;&ensp;
-          <CircularStatic
-            questionCount={questionCount}
-            answered={currentQuestion}
-          />
-        </ThemeProvider>
+        )}
+
         <IconButton
           className={clsx(classes.expand, {
             [classes.expandOpen]: expanded,

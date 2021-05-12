@@ -29,6 +29,7 @@ const SurveyCardItems = (props) => {
           description={survey.description}
           questionCount={survey.questionCount}
           currentQuestion={survey.currentQuestion}
+          isOpen={survey.open}
         />
       ))}
     </div>
