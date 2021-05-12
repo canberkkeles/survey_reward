@@ -6,7 +6,7 @@ import SurveyQuestion from "./Surveys/SurveyQuestion";
 function App() {
   return (
     <Router>
-      <Route path="/" component={Main} />
+      <Route exact path="/" component={Main} />
       <Route path="/fill/survey/:id" component={SurveyQuestion} />
     </Router>
   );

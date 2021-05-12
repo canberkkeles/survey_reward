@@ -56,9 +56,7 @@ export default function SurveyCard(props) {
   const details = `This survey has ${questionCount} questions. It takes approximately ${questionCount} minutes. Thank you for your participation.`;
   const handleExpandClick = () => {
     setExpanded(!expanded);
-    console.log("EXPANDED");
   };
-
   return (
     <Card className={classes.root}>
       <CardHeader
@@ -92,6 +90,7 @@ export default function SurveyCard(props) {
               variant="contained"
               color="primary"
               style={{ color: "white" }}
+              href={`/fill/survey/${props.surveyId}`}
             >
               Begin Survey
             </Button>

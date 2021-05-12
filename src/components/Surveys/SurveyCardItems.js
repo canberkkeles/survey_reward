@@ -22,6 +22,7 @@ const SurveyCardItems = (props) => {
     <div className={classes.surveyCardContainer}>
       {surveys.map((survey) => (
         <SurveyCard
+          surveyId={survey.id}
           key={survey.id}
           rewardPool={survey.rewardPool}
           prize={survey.prize}
