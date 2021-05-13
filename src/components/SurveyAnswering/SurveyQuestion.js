@@ -3,6 +3,8 @@ import Navbar from "../UI/Navbar";
 import AnswerProgress from "./AnswerProgress";
 import { useParams } from "react-router-dom";
 import SurveyHeader from "./SurveyHeader";
+import QuestionCard from "../UI/QuestionCard";
+
 const SurveyQuestion = (props) => {
   const { id } = useParams();
   const accountAddress = props.accountAddress;
@@ -12,6 +14,7 @@ const SurveyQuestion = (props) => {
       <Navbar accountAddress={accountAddress} appName={appName} />
       <AnswerProgress />
       <SurveyHeader />
+      <QuestionCard />
     </div>
   );
 };
