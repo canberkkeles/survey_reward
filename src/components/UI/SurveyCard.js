@@ -14,7 +14,7 @@ import MonetizationOnIcon from "@material-ui/icons/MonetizationOn";
 import Button from "@material-ui/core/Button";
 import { lightBlue } from "@material-ui/core/colors";
 import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
-import CircularStatic from "./CircularStatic";
+import SurveyProgress from "../Surveys/SurveyProgress";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -61,7 +61,6 @@ export default function SurveyCard(props) {
     <Card className={classes.root}>
       <CardHeader
         avatar={
-          // Icon dedik
           <Avatar
             src="/broken-image.jpg"
             aria-label="conductor"
@@ -95,7 +94,7 @@ export default function SurveyCard(props) {
               Begin Survey
             </Button>
             &ensp;&ensp;&ensp;&ensp;
-            <CircularStatic
+            <SurveyProgress
               questionCount={questionCount}
               answered={currentQuestion}
             />

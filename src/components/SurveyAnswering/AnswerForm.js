@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import Button from "@material-ui/core/Button";
-import { green } from "@material-ui/core/colors";
+import { lightBlue } from "@material-ui/core/colors";
 import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import "../Styles/SurveyAnswering.css";
 
 const save = createMuiTheme({
   palette: {
-    primary: green,
+    primary: lightBlue,
   },
 });
 

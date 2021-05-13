@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import "../Styles/SurveyAnswering.css";
 import AnswerForm from "../SurveyAnswering/AnswerForm";
 
-const QuestionCard = () => {
-  const questionText = "How often do you find yourself thinking of suicide?";
+const QuestionCard = (props) => {
+  const questionText = props.questionText;
   const [answerSubmitted, setAnswerSubmitted] = useState("");
 
   const answerSubmitHandler = (answer) => {
     setAnswerSubmitted(answer);
+    props.onAnswerQuestion();
   };
 
   return (
