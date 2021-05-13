@@ -1,5 +1,5 @@
 import React from "react";
-import "./FilterSurveys.css";
+import "../Styles/FilterSurveys.css";
 import TextField from "@material-ui/core/TextField";
 import Slider from "@material-ui/core/Slider";
 

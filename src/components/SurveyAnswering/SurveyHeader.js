@@ -1,5 +1,5 @@
 import React from "react";
-import "./SurveyAnswering.css";
+import "../Styles/SurveyAnswering.css";
 
 const SurveyHeader = () => {
   const surveyConductor = "0x9818101924771cC285D34029F9E9b7aaA87f9569";

@@ -1,5 +1,5 @@
 import React from "react";
-import "../SurveyAnswering/SurveyAnswering.css";
+import "../Styles/SurveyAnswering.css";
 import Button from "@material-ui/core/Button";
 import { green } from "@material-ui/core/colors";
 import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";

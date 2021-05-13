@@ -1,5 +1,4 @@
 import React from "react";
-import "./App.css";
 import Main from "./Main";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import SurveyQuestion from "./SurveyAnswering/SurveyQuestion";
