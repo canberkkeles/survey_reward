@@ -3,7 +3,7 @@ import Navbar from "../UI/Navbar";
 import AnswerProgress from "./AnswerProgress";
 import { useParams } from "react-router-dom";
 import SurveyHeader from "./SurveyHeader";
-import QuestionCard from "../UI/QuestionCard";
+import QuestionCard from "./QuestionCard";
 import SurveyInstructions from "./SurveyInstructions";
 
 const SurveyQuestion = (props) => {

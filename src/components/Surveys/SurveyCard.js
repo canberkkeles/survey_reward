@@ -14,7 +14,7 @@ import MonetizationOnIcon from "@material-ui/icons/MonetizationOn";
 import Button from "@material-ui/core/Button";
 import { lightBlue } from "@material-ui/core/colors";
 import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
-import SurveyProgress from "../Surveys/SurveyProgress";
+import SurveyProgress from "./SurveyProgress";
 
 const useStyles = makeStyles((theme) => ({
   root: {

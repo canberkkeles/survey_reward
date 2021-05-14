@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import classes from "../Styles/SurveyAnswering.module.css";
-import AnswerForm from "../SurveyAnswering/AnswerForm";
+import AnswerForm from "./AnswerForm";
 
 const QuestionCard = (props) => {
   const questionText = props.questionText;
