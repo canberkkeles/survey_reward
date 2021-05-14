@@ -18,7 +18,7 @@ const SurveyQuestion = (props) => {
   };
 
   return (
-    <div>
+    <React.Fragment>
       <Navbar accountAddress={accountAddress} appName={appName} />
       <AnswerProgress
         questionCount={questionCount}
@@ -29,7 +29,7 @@ const SurveyQuestion = (props) => {
         questionText={questionText}
         onAnswerQuestion={answeredQuestionHandler}
       />
-    </div>
+    </React.Fragment>
   );
 };
 export default SurveyQuestion;

@@ -64,10 +64,10 @@ const Main = (props) => {
   const accountAddress = props.accountAddress;
   const appName = props.appName;
   return (
-    <div>
+    <React.Fragment>
       <Navbar accountAddress={accountAddress} appName={appName} />
       <Surveys surveys={surveys} />
-    </div>
+    </React.Fragment>
   );
 };
 

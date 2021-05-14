@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Button from "@material-ui/core/Button";
 import { lightBlue } from "@material-ui/core/colors";
 import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
@@ -11,14 +11,12 @@ const save = createMuiTheme({
 });
 
 const AnswerForm = (props) => {
-  const [answer, setAnswer] = useState("");
+  const answerInput = useRef();
 
   const submitHandler = (e) => {
-    props.onAnswerSubmit(answer);
+    props.onAnswerSubmit(answerInput.current.value);
+    answerInput.current.value = "";
     e.preventDefault();
-  };
-  const answerChangeHandler = (e) => {
-    setAnswer(e.target.value);
   };
   const questionText = props.questionText;
   return (
@@ -30,8 +28,7 @@ const AnswerForm = (props) => {
         maxLength="32"
         id="answer"
         placeholder="Your answer"
-        value={answer}
-        onChange={answerChangeHandler}
+        ref={answerInput}
       ></input>
       <ThemeProvider theme={save}>
         <Button

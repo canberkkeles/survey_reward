@@ -37,7 +37,7 @@ const Surveys = (props) => {
   });
 
   return (
-    <div>
+    <React.Fragment>
       <FilterSurveys
         maxPrize={maxPrize}
         maxQuestionCount={maxQuestionCount}
@@ -47,7 +47,7 @@ const Surveys = (props) => {
         onQuestionCountFilterChange={questionCountFilterChangeHandler}
       />
       <SurveyCardItems surveys={filteredSurveys} />
-    </div>
+    </React.Fragment>
   );
 };
 export default Surveys;
