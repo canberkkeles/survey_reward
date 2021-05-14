@@ -1,13 +1,22 @@
 import React from "react";
-import "../Styles/SurveyAnswering.css";
+import classes from "../Styles/SurveyAnswering.module.css";
+const SurveyHeader = (props) => {
+  const surveyConductor = props.surveyConductor;
+  const questionsRemaining = props.questionsRemaining;
+  const title = props.surveyTitle;
 
-const SurveyHeader = () => {
-  const surveyConductor = "0x9818101924771cC285D34029F9E9b7aaA87f9569";
   return (
-    <div className="header">
-      <div className="header__questions">5 questions remaining</div>
-      <div className="header__title">Research on Cuteberry</div>
-      <div className="header__conductor">Conductor: {surveyConductor}</div>
+    <div className={classes["header"]}>
+      <div className={classes["header__questions"]}>
+        <p className={classes["header__questions-remaining"]}>
+          {questionsRemaining}
+        </p>{" "}
+        Questions Remaining
+      </div>
+      <div className={classes["header__title"]}>{title}</div>
+      <div className={classes["header__conductor"]}>
+        Conductor: {surveyConductor}
+      </div>
     </div>
   );
 };

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../Styles/SurveyAnswering.css";
+import classes from "../Styles/SurveyAnswering.module.css";
 import AnswerForm from "../SurveyAnswering/AnswerForm";
 
 const QuestionCard = (props) => {
@@ -12,7 +12,7 @@ const QuestionCard = (props) => {
   };
 
   return (
-    <div className="question-card">
+    <div className={classes["question-card"]}>
       <AnswerForm
         questionText={questionText}
         onAnswerSubmit={answerSubmitHandler}

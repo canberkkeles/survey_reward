@@ -1,5 +1,5 @@
 import React from "react";
-import "../Styles/FilterSurveys.css";
+import classes from "../Styles/FilterSurveys.module.css";
 import TextField from "@material-ui/core/TextField";
 import Slider from "@material-ui/core/Slider";
 
@@ -25,10 +25,10 @@ const FilterSurveys = (props) => {
   };
 
   return (
-    <div className="surveys-filter">
+    <div className={classes["surveys-filter"]}>
       &nbsp;
       <p>Filter Surveys</p>
-      <div className="surveys-filter__control">
+      <div className={classes["surveys-filter__control"]}>
         <TextField label="Title" onChange={titleChangeHandler} />
         <hr></hr>
         <p>Min Prize</p>

@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import Button from "@material-ui/core/Button";
 import { lightBlue } from "@material-ui/core/colors";
 import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
-import "../Styles/SurveyAnswering.css";
+import classes from "../Styles/SurveyAnswering.module.css";
 
 const save = createMuiTheme({
   palette: {
@@ -20,10 +20,10 @@ const AnswerForm = (props) => {
   };
   const questionText = props.questionText;
   return (
-    <form onSubmit={submitHandler}>
+    <form onSubmit={submitHandler} autoComplete="off">
       <label htmlFor="answer">{questionText}</label>
       <input
-        className="input-answer"
+        className={classes["input-answer"]}
         required
         maxLength="32"
         id="answer"
