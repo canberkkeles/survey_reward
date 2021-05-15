@@ -47,7 +47,7 @@ const FilterSurveys = (props) => {
           onChange={maxPrizeChangeHandler}
         ></Slider>
       </div>
-      <p>Question Count</p>
+      <p>Max Question Count</p>
       <TextField
         type="number"
         label="Question Count"

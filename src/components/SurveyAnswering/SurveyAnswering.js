@@ -4,7 +4,7 @@ import AnswerProgress from "./AnswerProgress";
 import { useParams } from "react-router-dom";
 import SurveyHeader from "./SurveyHeader";
 import QuestionCard from "./QuestionCard";
-import SurveyInstructions from "./SurveyInstructions";
+import InstructionsCard from "../UI/InstructionsCard";
 
 const SurveyQuestion = (props) => {
   const { id } = useParams();
@@ -36,7 +36,19 @@ const SurveyQuestion = (props) => {
         surveyTitle={surveyTitle}
         surveyConductor={conductor}
       />
-      <SurveyInstructions />
+      <InstructionsCard>
+        {" "}
+        All data shared is protected.<br></br>
+        Every question appears one by one on the page. <br></br>
+        Answering the question saves the answer irreversibly.<br></br>
+        Rewards are distributed once the survey is completed.<br></br>
+        Answers should be concise to match conductor's needs. <br></br>
+        Data is stored anonymously(with your address) and therefore answers are
+        anonymous.<br></br>
+        System detects fraudlent answers, in case of fraudlent activity
+        detection all deposit will be transfered to contract.
+      </InstructionsCard>
+
       <QuestionCard
         questionText={questionText}
         onAnswerQuestion={answeredQuestionHandler}

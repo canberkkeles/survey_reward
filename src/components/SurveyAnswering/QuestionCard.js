@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import classes from "../Styles/SurveyAnswering.module.css";
+import FormCard from "../UI/FormCard";
 import AnswerForm from "./AnswerForm";
 
 const QuestionCard = (props) => {
@@ -12,13 +12,13 @@ const QuestionCard = (props) => {
   };
 
   return (
-    <div className={classes["question-card"]}>
+    <FormCard>
       <AnswerForm
         questionText={questionText}
         onAnswerSubmit={answerSubmitHandler}
       />
       <p>{answerSubmitted === "" ? "" : `Your answer is ${answerSubmitted}`}</p>
-    </div>
+    </FormCard>
   );
 };
 export default QuestionCard;

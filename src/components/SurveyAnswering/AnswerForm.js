@@ -21,6 +21,7 @@ const AnswerForm = (props) => {
   const questionText = props.questionText;
   return (
     <form onSubmit={submitHandler} autoComplete="off">
+      <br></br>
       <label htmlFor="answer">{questionText}</label>
       <input
         className={classes["input-answer"]}
@@ -35,10 +36,16 @@ const AnswerForm = (props) => {
           size="large"
           variant="contained"
           color="primary"
-          style={{ color: "white" }}
+          style={{
+            color: "white",
+            marginTop: "2%",
+            marginBottom: "2%",
+            marginRight: "2%",
+            float: "right",
+          }}
           type="submit"
         >
-          Submit Answer
+          Save Survey
         </Button>
       </ThemeProvider>
     </form>

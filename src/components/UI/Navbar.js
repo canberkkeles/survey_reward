@@ -26,6 +26,9 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: "bold",
     fontSize: 14,
     color: "white",
+    "&:hover": {
+      color: "white",
+    },
   },
   logo: {
     flexGrow: 1,
@@ -61,7 +64,9 @@ export default function Navbar(props) {
             <Typography variant="h6" className={classes.adressCss}>
               {account}
             </Typography>
-            <Button className={classes.navbarButtons}>Create Survey</Button>
+            <Button className={classes.navbarButtons} href="/create">
+              Create Survey
+            </Button>
             <Button className={classes.navbarButtons}>My Surveys</Button>
           </div>
         </Toolbar>
