@@ -67,7 +67,9 @@ export default function Navbar(props) {
             <Button className={classes.navbarButtons} href="/create">
               Create Survey
             </Button>
-            <Button className={classes.navbarButtons}>My Surveys</Button>
+            <Button className={classes.navbarButtons} href="/profile">
+              My Surveys
+            </Button>
           </div>
         </Toolbar>
       </AppBar>
