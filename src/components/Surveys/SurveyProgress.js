@@ -31,7 +31,7 @@ export default function SurveyProgress(props) {
   const questionCount = props.questionCount;
   const [answered, setAnswered] = React.useState(props.answered);
   const [progress, setProgress] = React.useState(
-    (answered / questionCount) * 100
+    (+answered / +questionCount) * 100
   );
 
   return <CircularProgressWithLabel value={progress} />;
