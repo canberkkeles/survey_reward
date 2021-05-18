@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import SurveyQuestion from "./SurveyAnswering/SurveyAnswering";
 import SurveyCreate from "./SurveyCreate/SurveyCreate";
 import ProfileSurveys from "./ProfileSurveys/ProfileSurveys";
+import SurveyDetails from "./SurveyDetails/SurveyDetails";
 function App() {
   const accountAddress = "0xaD3Cd15b8Ad69d7913eB80aC52a6C9016773b36E";
   const appName = "Survey Dapp";
@@ -20,6 +21,9 @@ function App() {
       </Route>
       <Route path="/profile">
         <ProfileSurveys appName={appName} accountAddress={accountAddress} />
+      </Route>
+      <Route path="/details/survey/:id">
+        <SurveyDetails appName={appName} accountAddress={accountAddress} />
       </Route>
     </Router>
   );
