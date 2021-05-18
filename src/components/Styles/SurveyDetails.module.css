@@ -1,0 +1,20 @@
+.answer-card-text {
+  font-size: 2em !important;
+  font-family: "Raleway", sans-serif !important;
+  text-align: center;
+  color: black !important;
+  font-weight: bold !important;
+}
+
+.answer-card {
+  width: calc(100% - 4%);
+  border: 1px solid black;
+  margin: 2% 2%;
+  float: left;
+}
+
+.answer {
+  font-size: 1.5em !important;
+  font-family: "Raleway", sans-serif !important;
+  color: black !important;
+}

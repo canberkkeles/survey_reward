@@ -33,6 +33,12 @@ const useStyles = makeStyles((theme) => ({
   expandOpen: {
     transform: "rotate(180deg)",
   },
+
+  detailsButton: {
+    "&:hover": {
+      color: "white",
+    },
+  },
 }));
 const open = createMuiTheme({
   palette: {
@@ -74,10 +80,11 @@ export default function SurveyCard(props) {
           <ThemeProvider theme={open}>
             <div>
               <Button
+                className={classes.detailsButton}
                 variant="contained"
                 color="primary"
                 style={{ color: "white" }}
-                href={`/details/survey/${props.surveyId}`}
+                href={`/details/${props.surveyId}`}
               >
                 Survey Data
               </Button>{" "}

@@ -166,7 +166,7 @@ export default function SurveyCard(props) {
                 variant="contained"
                 color="primary"
                 style={{ color: "white" }}
-                href={`/fill/survey/${props.surveyId}`}
+                href={`/fill/${props.surveyId}`}
               >
                 Begin Survey
               </Button>
