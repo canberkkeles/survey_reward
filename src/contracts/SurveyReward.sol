@@ -118,12 +118,6 @@ contract SurveyReward {
         for(uint i = 0; i < questions.length ; i++){
             _survey.questions[_survey.questionCount] = Question(questions[i], 0);
             _survey.questionCount++;
-            // emit QuestionAdditionToSurvey(
-            //     questions[i],
-            //     _survey.questions[_survey.questionCount - 1].answerCount,
-            //     surveyCount,
-            //     _survey.questionCount
-            // );
         }
 
         surveys[surveyCount] = _survey;
