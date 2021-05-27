@@ -31,14 +31,20 @@ contract("SurveyReward", ([conductor, participant, participant2]) => {
     });
   });
 
-  describe("survey functions", async () => {
+  describe("open surveys", async () => {
     let result;
     let surveyCount;
     before(async () => {
-      result = await surveyReward.createSurvey("Research on blockchain", 400, {
-        from: conductor,
-        value: 400,
-      });
+      result = await surveyReward.createSurvey(
+        "Research on blockchain",
+        400,
+        "A detailed description",
+        [web3.utils.asciiToHex("Question 1")],
+        {
+          from: conductor,
+          value: 400,
+        }
+      );
       surveyCount = await surveyReward.surveyCount();
     });
     it("creates surveys", async () => {
@@ -52,12 +58,17 @@ contract("SurveyReward", ([conductor, participant, participant2]) => {
       );
       assert.equal(
         event.questionCount.toNumber(),
-        1,
+        2,
         "Question count is correct"
       );
       assert.equal(event.conductor, conductor, "Survey conductor is correct");
       assert.equal(event.open, true, "Survey status is correct");
       assert.equal(event.reward.toNumber(), 400, "Survey reward is correct");
+      assert.equal(
+        event.description,
+        "A detailed description",
+        "Survey description is correct"
+      );
 
       // NEGATIVE CASE
       await surveyReward.createSurvey("", 400, {
@@ -68,6 +79,16 @@ contract("SurveyReward", ([conductor, participant, participant2]) => {
         from: conductor,
         value: 200,
       }).should.be.rejected;
+      await surveyReward.createSurvey(
+        "Research on blockchain",
+        400,
+        "A detailed description",
+        [],
+        {
+          from: conductor,
+          value: 400,
+        }
+      ).should.be.rejected;
     });
 
     it("gets surveys", async () => {
@@ -76,53 +97,13 @@ contract("SurveyReward", ([conductor, participant, participant2]) => {
       assert.equal(survey.title, "Research on blockchain", "Title is correct");
       assert.equal(
         survey.questionCount.toNumber(),
-        1,
+        2,
         "Question count is correct"
       );
       assert.equal(survey.conductor, conductor, "Conductor is correct");
       assert.equal(survey.open, true, "Status is correct");
       assert.equal(survey.reward.toNumber(), 400, "Reward is correct");
       assert.equal(survey.balance.toNumber(), 400, "Balance is correct");
-    });
-
-    it("appends questions to survey", async () => {
-      // POSITIVE CASE
-      result = await surveyReward.appendQuestions(
-        [web3.utils.asciiToHex("Question on blockchain")],
-        0
-      );
-      const event = result.logs[0].args;
-      assert.equal(
-        web3.utils.hexToAscii(event.text).replace(/\0/g, ""),
-        "Question on blockchain"
-      );
-      assert.equal(
-        event.answerCount.toNumber(),
-        0,
-        "Answer count of question is correct"
-      );
-      assert.equal(event.surveyid.toNumber(), 0, "Survey id is correct");
-      assert.equal(
-        event.questionCount.toNumber(),
-        2,
-        "Question count is correct"
-      );
-      // NEGATIVE CASES
-      await surveyReward.appendQuestions(
-        [web3.utils.asciiToHex("Valid question")],
-        -1
-      ).should.be.rejected;
-      await surveyReward.appendQuestions(
-        [web3.utils.asciiToHex("Valid question")],
-        0,
-        {
-          from: participant,
-        }
-      ).should.be.rejected;
-      await surveyReward.appendQuestions(
-        [web3.utils.asciiToHex("New question on blockchain")],
-        0
-      ).should.be.rejected;
     });
 
     it("verifies captcha", async () => {
@@ -139,6 +120,7 @@ contract("SurveyReward", ([conductor, participant, participant2]) => {
       assert.equal(event.surveyid.toNumber(), 0, "Survey id is correct");
       assert.equal(event.questionid.toNumber(), 0, "Question id is correct");
       assert.equal(event.participant, participant, "Participant is correct");
+      assert.equal(event.open, true, "Survey status is correct");
       assert.equal(
         web3.utils.hexToAscii(event.answer).replace(/\0/g, ""),
         "I am not using a bot",
@@ -198,6 +180,7 @@ contract("SurveyReward", ([conductor, participant, participant2]) => {
       assert.equal(event.surveyid.toNumber(), 0, "Survey id is correct");
       assert.equal(event.questionid.toNumber(), 1, "Question id is correct");
       assert.equal(event.participant, participant, "Participant is correct");
+      assert.equal(event.open, false, "Survey status is correct");
       assert.equal(
         web3.utils.hexToAscii(event.answer).replace(/\0/g, ""),
         "An answer on blockchain",
@@ -255,6 +238,47 @@ contract("SurveyReward", ([conductor, participant, participant2]) => {
       await surveyReward.getAnswers(0, 5).should.be.rejected;
       await surveyReward.getAnswers(1, 5).should.be.rejected;
       await surveyReward.getAnswers(0, 1, { from: participant }).should.be
+        .rejected;
+    });
+  });
+  describe("closed surveys", async () => {
+    let result;
+    before(async () => {
+      await surveyReward.createSurvey(
+        "Research on blockchain",
+        400,
+        "A detailed description 2",
+        [web3.utils.asciiToHex("Question 2")],
+        {
+          from: conductor,
+          value: 400,
+        }
+      );
+      await surveyReward.createSurvey(
+        "Research on blockchain",
+        400,
+        "A detailed description 3",
+        [web3.utils.asciiToHex("Question 3")],
+        {
+          from: conductor,
+          value: 400,
+        }
+      );
+    });
+    it("closes surveys", async () => {
+      result = await surveyReward.closeSurvey(1);
+      const event = result.logs[0].args;
+      assert.equal(event.surveyid.toNumber(), 1, "Survey id is correct");
+      assert.equal(event.open, false, "Survey status is correct");
+      // NEGATIVE CASES
+      await surveyReward.closeSurvey(1).should.be.rejected;
+      await surveyReward.closeSurvey(3).should.be.rejected;
+      await surveyReward.closeSurvey(2, { from: participant }).should.be
+        .rejected;
+    });
+
+    it("answers questions", async () => {
+      await surveyReward.answerQuestion(1, 0, { from: participant }).should.be
         .rejected;
     });
   });

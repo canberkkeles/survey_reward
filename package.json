@@ -1,8 +1,8 @@
 {
   "name": "survey-reward",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "A Reward System For Survey Participants!",
-  "author": "Canberk Keles, Mazhar Mert Ozbil, Omer Kose, Burak Izer, Cagdas Capuk",
+  "author": "Canberk Keles, Mazhar Mert Ozbil, Burak Izer, Omer Kose, Cagdas Capuk",
   "dependencies": {
     "@material-ui/core": "^4.11.4",
     "@material-ui/icons": "^4.11.2",
