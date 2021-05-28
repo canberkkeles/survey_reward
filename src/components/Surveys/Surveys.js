@@ -1,17 +1,26 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SurveyCardItems from "./SurveyCardItems";
 import FilterSurveys from "./FilterSurveys";
 
 const Surveys = (props) => {
+  const accountAddress = props.accountAddress;
   const surveys = props.surveys;
+  const surveyReward = props.surveyReward;
   const maxPrize = Math.max(...surveys.map((survey) => +survey[4].toNumber()));
   const maxQuestionCount = Math.max(
     ...surveys.map((survey) => +survey[2].toNumber())
   );
+
   const [titleFilter, setTitleFilter] = useState("");
   const [minPrizeFilter, setMinPrizeFilter] = useState(0);
-  const [maxPrizeFilter, setMaxPrizeFilter] = useState(400); // TODO:PROBLEMATIC
-  const [questionCountFilter, setQuestionCountFilter] = useState(2); // TODO:PROBLEMATIC
+  const [maxPrizeFilter, setMaxPrizeFilter] = useState(0);
+  const [questionCountFilter, setQuestionCountFilter] = useState(0);
+
+  useEffect(() => {
+    setMaxPrizeFilter(maxPrize);
+    setQuestionCountFilter(maxQuestionCount);
+  }, [surveys]);
+
   const titleFilterChangeHandler = (filter) => {
     setTitleFilter(filter);
   };
@@ -26,14 +35,14 @@ const Surveys = (props) => {
   };
 
   const filteredSurveys = surveys.filter((survey) => {
+    console.log(survey[2].toNumber());
     return (
       survey[0].toUpperCase().indexOf(titleFilter.toUpperCase()) === 0 &&
       (+survey[4].toNumber() >= minPrizeFilter &&
         +survey[4].toNumber() <= maxPrizeFilter) &&
-      +survey[2].toNumber() <= questionCountFilter
+      +survey[2].toNumber() >= +questionCountFilter
     );
   });
-  console.log(filteredSurveys);
 
   return (
     <React.Fragment>
@@ -45,7 +54,11 @@ const Surveys = (props) => {
         onMaxPrizeFilterChange={maxPrizeFilterChangeHandler}
         onQuestionCountFilterChange={questionCountFilterChangeHandler}
       />
-      <SurveyCardItems surveys={filteredSurveys} />
+      <SurveyCardItems
+        surveys={filteredSurveys}
+        surveyReward={surveyReward}
+        accountAddress={accountAddress}
+      />
     </React.Fragment>
   );
 };

@@ -11,8 +11,8 @@ import SurveyDetails from "./SurveyDetails/SurveyDetails";
 function App() {
   const [accountAddress, setAccountAddress] = useState("");
   const [appName, setAppName] = useState("");
-  const [surveyReward, setSurveyReward] = useState();
   const [surveys, setSurveys] = useState([]);
+  const [surveyReward, setSurveyReward] = useState(null);
 
   useEffect(async () => {
     await loadWeb3();
@@ -47,10 +47,10 @@ function App() {
       setSurveyReward(surveyRewardContract);
       const applicationName = await surveyRewardContract.methods.name().call();
       setAppName(applicationName);
-      const surveyCount = await surveyRewardContract.methods
+      const surveyCountData = await surveyRewardContract.methods
         .surveyCount()
         .call();
-      for (let i = 0; i < surveyCount; i++) {
+      for (let i = 0; i < surveyCountData; i++) {
         const survey = await surveyRewardContract.methods.surveys(i).call();
         setSurveys((prevState) => [...prevState, survey]);
       }
@@ -58,7 +58,6 @@ function App() {
       window.alert("SurveyReward contract not deployed to detected network!");
     }
   }
-
   return (
     <Router>
       <Route exact path="/">
@@ -66,6 +65,7 @@ function App() {
           appName={appName}
           accountAddress={accountAddress}
           surveys={surveys}
+          surveyReward={surveyReward}
         />
       </Route>
       <Route path="/fill/:id">

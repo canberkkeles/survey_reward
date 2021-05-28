@@ -194,4 +194,11 @@ contract SurveyReward {
         _survey.questions[_questionid].answers[_question.answerCount - 1].participant, 
         _survey.questions[_questionid].answers[_question.answerCount - 1].text);
     }
+
+    function getCheckpoint(uint256 _surveyid) public view
+    surveyAvailable(_surveyid)
+    participantOnly(_surveyid)
+    returns(uint256){
+        return surveys[_surveyid].lastLeft[msg.sender];
+    }
 }

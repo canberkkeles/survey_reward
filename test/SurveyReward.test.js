@@ -166,6 +166,19 @@ contract("SurveyReward", ([conductor, participant, participant2]) => {
       ).should.be.rejected;
     });
 
+    it("gets checkpoints", async () => {
+      result = await surveyReward.getCheckpoint(0, { from: participant });
+      assert.equal(result.toNumber(), 1, "Checkpoint is correct");
+      result = await surveyReward.getCheckpoint(0, { from: participant2 });
+      assert.equal(result.toNumber(), 0, "Checkpoint is correct");
+
+      // NEGATIVE CASES
+      await surveyReward.getCheckpoint(0, { from: conductor }).should.be
+        .rejected;
+      await surveyReward.getCheckpoint(1, { from: participant }).should.be
+        .rejected;
+    });
+
     it("answers questions", async () => {
       let prevBalance = await web3.eth.getBalance(surveyReward.address);
       prevBalance = new web3.utils.BN(prevBalance);

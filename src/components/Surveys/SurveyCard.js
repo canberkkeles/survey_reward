@@ -59,27 +59,28 @@ const open = createMuiTheme({
 });
 
 export default function SurveyCard(props) {
+  const donateAddress = props.conductor;
+  const surveyReward = props.surveyReward;
+  const accountAddress = props.accountAddress;
   const classes = useStyles();
   const [expanded, setExpanded] = useState(false);
   const surveyTitle = props.title;
   const description = props.description;
   const isOpen = props.isOpen;
   const [donateOpen, setDonateOpen] = useState(false);
-  const [donateAddress, setDonateAddress] = useState("");
   const [donateValue, setDonateValue] = useState(0);
 
   const details = `This survey has ${props.questionCount} questions. It takes approximately ${props.questionCount} minutes. Thank you for your participation.`;
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+
   const handleOpen = () => {
     setDonateOpen(true);
-    setDonateAddress("0xF20b13ED63A1F6Dd8894f0dB3ff2AB7de89bcb21");
   };
 
   const handleClose = () => {
     setDonateOpen(false);
-    setDonateAddress("");
     setDonateValue(0);
   };
 
@@ -87,8 +88,14 @@ export default function SurveyCard(props) {
     setDonateValue(event.target.value);
   };
   const handleDonate = (event) => {
-    console.log("Donate ", donateValue, "to ", donateAddress);
-    handleClose();
+    const web3 = window.web3;
+    web3.eth.sendTransaction(
+      { from: accountAddress, to: donateAddress, value: donateValue },
+      function(err, transactionHash) {
+        if (!err) handleClose();
+        else alert("An Error Occured While Donating");
+      }
+    );
     event.preventDefault();
   };
   return (

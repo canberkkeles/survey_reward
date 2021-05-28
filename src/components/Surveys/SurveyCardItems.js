@@ -19,6 +19,8 @@ const useStyles = makeStyles((theme) => ({
 const SurveyCardItems = (props) => {
   const classes = useStyles();
   const surveys = props.surveys;
+  const surveyReward = props.surveyReward;
+  const accountAddress = props.accountAddress;
   return (
     <div className={classes.surveyCardContainer}>
       {surveys.map((survey, index) => (
@@ -30,8 +32,11 @@ const SurveyCardItems = (props) => {
           title={survey[0]}
           description={survey[6]}
           questionCount={survey[2].toNumber()}
-          currentQuestion={1} // TODO: PROBLEMATIC
+          currentQuestion={1}
           isOpen={survey[3]}
+          conductor={survey[1]}
+          surveyReward={surveyReward}
+          accountAddress={accountAddress}
         />
       ))}
     </div>
