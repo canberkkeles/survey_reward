@@ -32,7 +32,7 @@ const SurveyCardItems = (props) => {
           title={survey[0]}
           description={survey[6]}
           questionCount={survey[2].toNumber()}
-          currentQuestion={1}
+          currentQuestion={survey.checkpoint}
           isOpen={survey[3]}
           conductor={survey[1]}
           surveyReward={surveyReward}

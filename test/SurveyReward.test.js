@@ -173,8 +173,6 @@ contract("SurveyReward", ([conductor, participant, participant2]) => {
       assert.equal(result.toNumber(), 0, "Checkpoint is correct");
 
       // NEGATIVE CASES
-      await surveyReward.getCheckpoint(0, { from: conductor }).should.be
-        .rejected;
       await surveyReward.getCheckpoint(1, { from: participant }).should.be
         .rejected;
     });

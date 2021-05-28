@@ -52,6 +52,10 @@ function App() {
         .call();
       for (let i = 0; i < surveyCountData; i++) {
         const survey = await surveyRewardContract.methods.surveys(i).call();
+        const checkpoint = await surveyRewardContract.methods
+          .getCheckpoint(i)
+          .call();
+        survey.checkpoint = checkpoint;
         setSurveys((prevState) => [...prevState, survey]);
       }
     } else {

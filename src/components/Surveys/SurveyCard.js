@@ -12,7 +12,7 @@ import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import MonetizationOnIcon from "@material-ui/icons/MonetizationOn";
 import Button from "@material-ui/core/Button";
-import { lightBlue } from "@material-ui/core/colors";
+import { green, lightBlue } from "@material-ui/core/colors";
 import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
@@ -55,12 +55,12 @@ const useStyles = makeStyles((theme) => ({
 const open = createMuiTheme({
   palette: {
     primary: lightBlue,
+    secondary: green,
   },
 });
 
 export default function SurveyCard(props) {
   const donateAddress = props.conductor;
-  const surveyReward = props.surveyReward;
   const accountAddress = props.accountAddress;
   const classes = useStyles();
   const [expanded, setExpanded] = useState(false);
@@ -167,7 +167,7 @@ export default function SurveyCard(props) {
         </CardContent>
 
         <CardActions disableSpacing>
-          {isOpen ? (
+          {isOpen && donateAddress != accountAddress ? (
             <ThemeProvider theme={open}>
               <Button
                 variant="contained"

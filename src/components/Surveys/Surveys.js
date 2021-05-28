@@ -35,7 +35,6 @@ const Surveys = (props) => {
   };
 
   const filteredSurveys = surveys.filter((survey) => {
-    console.log(survey[2].toNumber());
     return (
       survey[0].toUpperCase().indexOf(titleFilter.toUpperCase()) === 0 &&
       (+survey[4].toNumber() >= minPrizeFilter &&

@@ -197,7 +197,6 @@ contract SurveyReward {
 
     function getCheckpoint(uint256 _surveyid) public view
     surveyAvailable(_surveyid)
-    participantOnly(_surveyid)
     returns(uint256){
         return surveys[_surveyid].lastLeft[msg.sender];
     }
