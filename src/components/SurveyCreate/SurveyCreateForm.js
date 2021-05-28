@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import classes from "../Styles/SurveyCreate.module.css";
 import Button from "@material-ui/core/Button";
 import { lightBlue, red } from "@material-ui/core/colors";
 import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
+import Web3 from "web3";
+import SurveyReward from "../../abis/SurveyReward.json";
 const save = createMuiTheme({
   palette: {
     primary: lightBlue,
@@ -11,9 +13,41 @@ const save = createMuiTheme({
 });
 
 const SurveyCreateForm = (props) => {
+  const accountAddress = props.accountAddress;
+  const [surveyReward, setSurveyReward] = useState(null);
+
   const [questions, setQuestions] = useState([]);
   const [formData, setFormData] = useState({});
 
+  useEffect(async () => {
+    await loadWeb3();
+    await loadBlockchainData();
+  }, []);
+  async function loadWeb3() {
+    if (window.ethereum) {
+      window.web3 = new Web3(window.ethereum);
+      await window.ethereum.enable;
+    } else if (window.web3) {
+      window.web3 = new Web3(window.web3.currentProvider);
+    } else {
+      window.alert(
+        "Non-Ethereum browser detected. You should consider trying MetaMask!"
+      );
+    }
+  }
+  async function loadBlockchainData() {
+    const networkId = await window.web3.eth.net.getId();
+    const networkData = SurveyReward.networks[networkId];
+    if (networkData) {
+      const surveyRewardContract = window.web3.eth.Contract(
+        SurveyReward.abi,
+        networkData.address
+      );
+      setSurveyReward(surveyRewardContract);
+    } else {
+      window.alert("SurveyReward contract not deployed to detected network!");
+    }
+  }
   const addQuestionHandler = () => {
     setQuestions((prevState) => [...prevState, 0]);
     props.onQuestionCountChange(1);
@@ -33,21 +67,60 @@ const SurveyCreateForm = (props) => {
   };
 
   const addSurveyHandler = (event) => {
-    const finalData = { ...formData, questionCount: questions.length + 1 };
-    console.log(finalData);
+    const formSubmitData = { ...formData, questionCount: questions.length + 1 };
+    const { questionCount } = formSubmitData;
+    const questionKeys = [];
+    for (let i = 1; i <= questionCount; i++) {
+      questionKeys.push(`question${i}`);
+    }
+    let surveyData = {};
+    let surveyQuestionsData = [];
+    for (const property in formSubmitData) {
+      if (property.indexOf("question") === -1) {
+        surveyData[property] = formSubmitData[property];
+      } else {
+        if (questionKeys.indexOf(property) === 0) {
+          surveyQuestionsData.push(
+            window.web3.utils.asciiToHex(formSubmitData[property])
+          );
+        }
+      }
+    }
+
+    surveyReward.methods
+      .createSurvey(
+        surveyData["title"],
+        +surveyData["prize"],
+        surveyData["description"],
+        surveyQuestionsData
+      )
+      .send({ from: accountAddress, value: +surveyData["balance"] })
+      .once("receipt", (receipt) => {
+        alert("Survey Created!");
+      });
     event.preventDefault();
   };
   return (
-    <form autoComplete="off" onSubmit={addSurveyHandler}>
+    <form autoComplete="off" onSubmit={addSurveyHandler} method="POST">
       <br></br>
       <label htmlFor="title">Survey Title</label>
       <input
         className={classes["input-answer"]}
         required
-        maxLength="32"
         id="title"
         name="title"
         placeholder="Title"
+        onChange={onChangeHandler}
+      ></input>
+      <br></br>
+      <br></br>
+      <label htmlFor="title">Survey Description</label>
+      <input
+        className={classes["input-answer"]}
+        required
+        id="description"
+        name="description"
+        placeholder="Description"
         onChange={onChangeHandler}
       ></input>
       <br></br>

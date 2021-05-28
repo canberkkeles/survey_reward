@@ -6,6 +6,7 @@ import SurveyCreateInfo from "./SurveyCreateInfo";
 import SurveyCreateForm from "./SurveyCreateForm";
 
 const SurveyCreate = (props) => {
+  const accountAddress = props.accountAddress;
   const [questionCount, setQuestionCount] = useState(1);
   const [prize, setPrize] = useState(0);
   const [balance, setBalance] = useState(0);
@@ -51,6 +52,7 @@ const SurveyCreate = (props) => {
           onQuestionCountChange={questionCountHandler}
           onPrizeChange={prizeChangeHandler}
           onBalanceChange={balanceChangeHandler}
+          accountAddress={accountAddress}
         />
       </FormCard>
     </React.Fragment>

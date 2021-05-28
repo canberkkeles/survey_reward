@@ -167,7 +167,9 @@ export default function SurveyCard(props) {
         </CardContent>
 
         <CardActions disableSpacing>
-          {isOpen && donateAddress != accountAddress ? (
+          {isOpen &&
+          window.web3.utils.hexToAscii(donateAddress) !==
+            window.web3.utils.hexToAscii(accountAddress) ? (
             <ThemeProvider theme={open}>
               <Button
                 variant="contained"
@@ -190,7 +192,7 @@ export default function SurveyCard(props) {
               style={{ color: "white" }}
               disabled
             >
-              Survey Closed
+              Survey Unavailable
             </Button>
           )}
 
