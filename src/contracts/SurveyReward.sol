@@ -138,9 +138,10 @@ contract SurveyReward {
     }
 
     // GETS QUESTION TEXT FROM SURVEY
-    // REQUIRED: SURVEY AND QUESTIN SHOULD EXIST
+    // REQUIRED: SURVEY AND QUESTION SHOULD EXIST
     function getQuestionFromSurvey(uint256 _surveyid, uint256 _questionid) public view 
     questionAvailable(_surveyid,_questionid)
+    checkpointSatisfies(_surveyid,_questionid)
     returns(bytes32){
         Survey storage _survey = surveys[_surveyid];
         return _survey.questions[_questionid].text;

@@ -96,7 +96,7 @@ const SurveyCreateForm = (props) => {
       )
       .send({ from: accountAddress, value: +surveyData["balance"] })
       .once("receipt", (receipt) => {
-        alert("Survey Created!");
+        props.history.push("/");
       });
     event.preventDefault();
   };

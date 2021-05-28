@@ -6,16 +6,16 @@ const QuestionCard = (props) => {
   const questionText = props.questionText;
   const [answerSubmitted, setAnswerSubmitted] = useState("");
 
-  const answerSubmitHandler = (answer) => {
-    setAnswerSubmitted(answer);
-    props.onAnswerQuestion();
-  };
+  // const answerSubmitHandler = (answer) => {
+  //   setAnswerSubmitted(answer);
+  //   props.onAnswerQuestion();
+  // };
 
   return (
     <FormCard>
       <AnswerForm
         questionText={questionText}
-        onAnswerSubmit={answerSubmitHandler}
+        onAnswerSubmit={props.onAnswerQuestion}
       />
       <p>{answerSubmitted === "" ? "" : `Your answer is ${answerSubmitted}`}</p>
     </FormCard>

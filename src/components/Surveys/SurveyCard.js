@@ -169,7 +169,8 @@ export default function SurveyCard(props) {
         <CardActions disableSpacing>
           {isOpen &&
           window.web3.utils.hexToAscii(donateAddress) !==
-            window.web3.utils.hexToAscii(accountAddress) ? (
+            window.web3.utils.hexToAscii(accountAddress) &&
+          props.questionCount > props.currentQuestion ? (
             <ThemeProvider theme={open}>
               <Button
                 variant="contained"

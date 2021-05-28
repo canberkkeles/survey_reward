@@ -3,7 +3,7 @@ import Web3 from "web3";
 import SurveyReward from "../abis/SurveyReward.json";
 import Main from "./Main";
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import SurveyQuestion from "./SurveyAnswering/SurveyAnswering";
+import SurveyAnswering from "./SurveyAnswering/SurveyAnswering";
 import SurveyCreate from "./SurveyCreate/SurveyCreate";
 import ProfileSurveys from "./ProfileSurveys/ProfileSurveys";
 import SurveyDetails from "./SurveyDetails/SurveyDetails";
@@ -73,7 +73,7 @@ function App() {
         />
       </Route>
       <Route path="/fill/:id">
-        <SurveyQuestion appName={appName} accountAddress={accountAddress} />
+        <SurveyAnswering appName={appName} accountAddress={accountAddress} />
       </Route>
       <Route path="/create">
         <SurveyCreate appName={appName} accountAddress={accountAddress} />

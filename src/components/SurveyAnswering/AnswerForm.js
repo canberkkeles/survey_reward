@@ -45,7 +45,7 @@ const AnswerForm = (props) => {
           }}
           type="submit"
         >
-          Save Survey
+          Save Answer
         </Button>
       </ThemeProvider>
     </form>
