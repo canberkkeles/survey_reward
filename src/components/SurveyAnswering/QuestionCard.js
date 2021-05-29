@@ -5,19 +5,18 @@ import AnswerForm from "./AnswerForm";
 const QuestionCard = (props) => {
   const questionText = props.questionText;
   const [answerSubmitted, setAnswerSubmitted] = useState("");
-
-  // const answerSubmitHandler = (answer) => {
-  //   setAnswerSubmitted(answer);
-  //   props.onAnswerQuestion();
-  // };
+  const isCompleted = props.completed;
 
   return (
     <FormCard>
-      <AnswerForm
-        questionText={questionText}
-        onAnswerSubmit={props.onAnswerQuestion}
-      />
-      <p>{answerSubmitted === "" ? "" : `Your answer is ${answerSubmitted}`}</p>
+      {isCompleted ? (
+        <p>You have completed this survey and reward has been transfered.</p>
+      ) : (
+        <AnswerForm
+          questionText={questionText}
+          onAnswerSubmit={props.onAnswerQuestion}
+        />
+      )}
     </FormCard>
   );
 };

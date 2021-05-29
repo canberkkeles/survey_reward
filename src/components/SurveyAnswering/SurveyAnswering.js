@@ -114,6 +114,7 @@ const SurveyAnswering = (props) => {
       <QuestionCard
         questionText={questionText}
         onAnswerQuestion={answeredQuestionHandler}
+        completed={currentQuestion === questionCount}
       />
     </React.Fragment>
   );

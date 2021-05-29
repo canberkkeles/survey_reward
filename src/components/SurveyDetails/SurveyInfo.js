@@ -14,7 +14,7 @@ const SurveyInfo = (props) => {
         <p className={classes["info-question__remaining"]}>{props.prizePool}</p>{" "}
         Remaining balance.
       </div>
-      <InstructionsCard>Title</InstructionsCard>
+      <InstructionsCard>{props.title}</InstructionsCard>
     </div>
   );
 };

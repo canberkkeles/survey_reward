@@ -66,7 +66,7 @@ const SurveyCreateForm = (props) => {
     }
   };
 
-  const addSurveyHandler = (event) => {
+  const addSurveyHandler = async (event) => {
     const formSubmitData = { ...formData, questionCount: questions.length + 1 };
     const { questionCount } = formSubmitData;
     const questionKeys = [];
@@ -87,7 +87,7 @@ const SurveyCreateForm = (props) => {
       }
     }
 
-    surveyReward.methods
+    await surveyReward.methods
       .createSurvey(
         surveyData["title"],
         +surveyData["prize"],
@@ -95,9 +95,8 @@ const SurveyCreateForm = (props) => {
         surveyQuestionsData
       )
       .send({ from: accountAddress, value: +surveyData["balance"] })
-      .once("receipt", (receipt) => {
-        props.history.push("/");
-      });
+      .once("receipt", (receipt) => {});
+    window.location.href = "/";
     event.preventDefault();
   };
   return (

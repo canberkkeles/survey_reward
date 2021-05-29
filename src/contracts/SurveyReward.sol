@@ -201,4 +201,17 @@ contract SurveyReward {
         require(_surveyid < surveyCount, "Survey should exist");
         return surveys[_surveyid].lastLeft[msg.sender];
     }
+
+    function getAllQuestions(uint256 _surveyid) public view 
+    conductorOnly(_surveyid)
+    returns(bytes32[] memory) {
+        require(_surveyid < surveyCount, "Survey should exist");
+        Survey storage _survey = surveys[_surveyid];
+        uint256 _questionCount = _survey.questionCount;
+        bytes32[] memory _questions = new bytes32[](_questionCount);
+        for(uint i = 0 ; i < _questionCount ; i++){
+            _questions[i] = _survey.questions[i].text;
+        }
+        return _questions;
+    }
 }

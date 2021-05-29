@@ -89,7 +89,11 @@ function App() {
         />
       </Route>
       <Route path="/details/:id">
-        <SurveyDetails appName={appName} accountAddress={accountAddress} />
+        <SurveyDetails
+          appName={appName}
+          accountAddress={accountAddress}
+          surveyReward={surveyReward}
+        />
       </Route>
     </Router>
   );
