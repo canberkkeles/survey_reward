@@ -197,8 +197,8 @@ contract SurveyReward {
     }
 
     function getCheckpoint(uint256 _surveyid) public view
-    surveyAvailable(_surveyid)
     returns(uint256){
+        require(_surveyid < surveyCount, "Survey should exist");
         return surveys[_surveyid].lastLeft[msg.sender];
     }
 }

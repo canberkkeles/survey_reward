@@ -53,9 +53,16 @@ export default function SurveyCard(props) {
   const surveyTitle = props.title;
   const description = props.description;
   const participantCount = Math.round(+props.rewardPool / +props.prize);
+  const surveyReward = props.surveyReward;
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
+  };
+
+  const handleCloseSurvey = async () => {
+    await surveyReward.methods
+      .closeSurvey(props.surveyId)
+      .send({ from: sessionStorage.getItem("address") });
   };
   return (
     <React.Fragment>
@@ -93,6 +100,7 @@ export default function SurveyCard(props) {
                   variant="contained"
                   color="secondary"
                   style={{ color: "white" }}
+                  onClick={handleCloseSurvey}
                 >
                   Close Survey
                 </Button>
@@ -102,6 +110,7 @@ export default function SurveyCard(props) {
                   color="secondary"
                   style={{ color: "white" }}
                   disabled
+                  onClick={handleCloseSurvey}
                 >
                   Close Survey
                 </Button>

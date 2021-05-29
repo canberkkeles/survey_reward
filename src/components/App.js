@@ -56,6 +56,7 @@ function App() {
           .getCheckpoint(i)
           .call({ from: accounts[0] });
         survey.checkpoint = checkpoint;
+        survey.id = i;
         setSurveys((prevState) => [...prevState, survey]);
       }
     } else {
@@ -84,6 +85,7 @@ function App() {
           appName={appName}
           accountAddress={accountAddress}
           surveys={surveys}
+          surveyReward={surveyReward}
         />
       </Route>
       <Route path="/details/:id">
