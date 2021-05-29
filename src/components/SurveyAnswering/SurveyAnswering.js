@@ -16,7 +16,6 @@ const SurveyAnswering = (props) => {
   const [surveyTitle, setSurveyTitle] = useState("");
   const [questionText, setQuestionText] = useState("");
   const [conductor, setConductor] = useState("");
-
   const accountAddress = props.accountAddress;
   const appName = props.appName;
 
@@ -50,15 +49,16 @@ const SurveyAnswering = (props) => {
       const survey = await surveyRewardContract.methods.surveys(id).call();
       const checkpoint = await surveyRewardContract.methods
         .getCheckpoint(id)
-        .call({ from: accountAddress });
-      console.log(checkpoint.toNumber());
+        .call({ from: sessionStorage.getItem("address") });
+      console.log("Address: ", accountAddress);
+      console.log("Checkpoint: ", checkpoint.toNumber());
       setQuestionCount(survey[2].toNumber());
       setCurrentQuestion(checkpoint.toNumber());
       setSurveyTitle(survey[0]);
       setConductor(survey[1]);
       const question = await surveyRewardContract.methods
         .getQuestionFromSurvey(id, checkpoint)
-        .call();
+        .call({ from: sessionStorage.getItem("address") });
       setQuestionText(window.web3.utils.hexToAscii(question));
     } else {
       window.alert("SurveyReward contract not deployed to detected network!");
@@ -86,7 +86,6 @@ const SurveyAnswering = (props) => {
         .once("receipt", (receipt) => console.log(receipt));
     }
   };
-
   return (
     <React.Fragment>
       <Navbar accountAddress={accountAddress} appName={appName} />

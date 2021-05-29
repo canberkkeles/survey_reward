@@ -54,7 +54,7 @@ function App() {
         const survey = await surveyRewardContract.methods.surveys(i).call();
         const checkpoint = await surveyRewardContract.methods
           .getCheckpoint(i)
-          .call();
+          .call({ from: accounts[0] });
         survey.checkpoint = checkpoint;
         setSurveys((prevState) => [...prevState, survey]);
       }
@@ -62,6 +62,7 @@ function App() {
       window.alert("SurveyReward contract not deployed to detected network!");
     }
   }
+  sessionStorage.setItem("address", accountAddress);
   return (
     <Router>
       <Route exact path="/">
@@ -79,7 +80,11 @@ function App() {
         <SurveyCreate appName={appName} accountAddress={accountAddress} />
       </Route>
       <Route path="/profile">
-        <ProfileSurveys appName={appName} accountAddress={accountAddress} />
+        <ProfileSurveys
+          appName={appName}
+          accountAddress={accountAddress}
+          surveys={surveys}
+        />
       </Route>
       <Route path="/details/:id">
         <SurveyDetails appName={appName} accountAddress={accountAddress} />
