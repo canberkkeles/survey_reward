@@ -79,14 +79,13 @@ const SurveyCreateForm = (props) => {
       if (property.indexOf("question") === -1) {
         surveyData[property] = formSubmitData[property];
       } else {
-        if (questionKeys.indexOf(property) === 0) {
+        if (questionKeys.indexOf(property) > -1) {
           surveyQuestionsData.push(
             window.web3.utils.asciiToHex(formSubmitData[property])
           );
         }
       }
     }
-
     await surveyReward.methods
       .createSurvey(
         surveyData["title"],
@@ -96,11 +95,10 @@ const SurveyCreateForm = (props) => {
       )
       .send({ from: accountAddress, value: +surveyData["balance"] })
       .once("receipt", (receipt) => {});
-    window.location.href = "/";
     event.preventDefault();
   };
   return (
-    <form autoComplete="off" onSubmit={addSurveyHandler} method="POST">
+    <form autoComplete="off" onSubmit={addSurveyHandler}>
       <br></br>
       <label htmlFor="title">Survey Title</label>
       <input

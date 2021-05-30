@@ -10,8 +10,8 @@ const SurveyCardItems = (props) => {
       {surveys.map((survey, index) => {
         return (
           <SurveyCard
-            key={index}
-            surveyId={index}
+            key={survey.id}
+            surveyId={survey.id}
             rewardPool={survey[5].toNumber()}
             prize={survey[4].toNumber()}
             title={survey[0]}

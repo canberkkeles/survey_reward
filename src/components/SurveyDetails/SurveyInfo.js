@@ -2,6 +2,7 @@ import React from "react";
 import classes from "../Styles/SurveyCreate.module.css";
 import InstructionsCard from "../UI/InstructionsCard";
 const SurveyInfo = (props) => {
+  console.log(props.questionCount);
   return (
     <div>
       <div className={classes["info-question"]}>

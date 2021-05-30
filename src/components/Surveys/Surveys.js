@@ -7,7 +7,7 @@ const Surveys = (props) => {
   const surveys = props.surveys;
   const surveyReward = props.surveyReward;
   const maxPrize = Math.max(...surveys.map((survey) => +survey[4].toNumber()));
-  const maxQuestionCount = Math.max(
+  const maxQuestionCount = Math.min(
     ...surveys.map((survey) => +survey[2].toNumber())
   );
 
