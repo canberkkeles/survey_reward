@@ -16,7 +16,6 @@ const ProfileSurveys = (props) => {
   };
 
   const filteredSurveys = props.surveys.filter((survey) => {
-    console.log(survey);
     return (
       survey[0].toUpperCase().indexOf(titleFilter.toUpperCase()) === 0 &&
       survey[3] === statusFilter &&

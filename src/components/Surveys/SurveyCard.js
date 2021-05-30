@@ -69,6 +69,16 @@ export default function SurveyCard(props) {
   const isOpen = props.isOpen;
   const [donateOpen, setDonateOpen] = useState(false);
   const [donateValue, setDonateValue] = useState(0);
+  let surveyMessage = "Survey Closed";
+
+  if (
+    window.web3.utils.hexToAscii(donateAddress) ===
+    window.web3.utils.hexToAscii(accountAddress)
+  ) {
+    surveyMessage = "Survey Owned";
+  } else if (props.questionCount >= props.currentQuestion) {
+    surveyMessage = "Survey Completed";
+  }
 
   const details = `This survey has ${props.questionCount} questions. It takes approximately ${props.questionCount} minutes. Thank you for your participation.`;
   const handleExpandClick = () => {
@@ -193,7 +203,7 @@ export default function SurveyCard(props) {
               style={{ color: "white" }}
               disabled
             >
-              Survey Unavailable
+              {surveyMessage}
             </Button>
           )}
 

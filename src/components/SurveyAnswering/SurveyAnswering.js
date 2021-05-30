@@ -50,8 +50,6 @@ const SurveyAnswering = (props) => {
       const checkpoint = await surveyRewardContract.methods
         .getCheckpoint(id)
         .call({ from: sessionStorage.getItem("address") });
-      console.log("Address: ", accountAddress);
-      console.log("Checkpoint: ", checkpoint.toNumber());
       setQuestionCount(survey[2].toNumber());
       setCurrentQuestion(checkpoint.toNumber());
       setSurveyTitle(survey[0]);
